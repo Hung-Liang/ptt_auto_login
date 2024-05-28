@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-import apscheduler.schedulers.blocking as apscheduler
+from apscheduler.schedulers.blocking import BlockingScheduler
 import requests
 from PyPtt import PTT
 
@@ -85,7 +85,9 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
 
 
 def main():
-    apscheduler.add_job(
+    scheduler = BlockingScheduler(timezone="Asia/Taipei")
+
+    scheduler.add_job(
         login,
         "cron",
         hour=8,
@@ -97,7 +99,7 @@ def main():
         ),
     )
 
-    apscheduler.start()
+    scheduler.start()
 
 
 if __name__ == "__main__":
