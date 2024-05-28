@@ -1,0 +1,104 @@
+import os
+from datetime import datetime
+from pathlib import Path
+
+import apscheduler.schedulers.blocking as apscheduler
+import requests
+from PyPtt import PTT
+
+
+def log(*messages, console: bool = False):
+    """Basic Log to Record Progress.
+
+    Args:
+        `messages`: Logging message.
+    """
+
+    log_path = Path('log')
+    log_path.mkdir(parents=True, exist_ok=True)
+
+    today = datetime.now().strftime('%Y-%m-%d') + '.log'
+
+    file_path = Path(log_path, today)
+
+    with open(file_path, 'a', encoding='utf-8') as f:
+        print(datetime.now().strftime('%Y-%m-%d %H:%M:%S'), *messages, file=f)
+
+    if console:
+        print(messages)
+
+
+def send_message(cid, message):
+    """Send message to Telegram.
+
+    Args:
+        `cid`: Chat ID.
+        `message`: Message to send.
+
+    Returns:
+        True if success, False if fail.
+    """
+
+    token = os.environ.get("tg_token")
+
+    url = (
+        'https://api.telegram.org/bot{}'
+        '/sendMessage?chat_id={}&parse_mode=HTML&text={}'.format(
+            token, cid, message
+        )
+    )
+
+    res = requests.get(url)
+
+    log(
+        '[telegram_lib]',
+        f'send message: {res.status_code} {res.text}',
+    )
+
+    if res.status_code == 200:
+        return True
+    else:
+        return False
+
+
+def login(ptt_username: str, ptt_password: str, chat_id: str):
+
+    ptt = PTT.API(log_level=PTT.log.INFO)
+
+    try:
+        ptt.login(ptt_username, ptt_password, kick_other_session=True)
+    except Exception as e:
+        log("[ptt]", str(e))
+        send_message(
+            chat_id, f"PTT {ptt_username} Login Fail\nError: {str(e)}"
+        )
+        return
+    else:
+        username = ptt.get_user(ptt_username)
+        response_message = (
+            f"PTT {ptt_username} Login Success\nLogin Count:"
+            f" {username.get('login_count')}"
+        )
+        ptt.logout()
+
+        send_message(chat_id, response_message)
+
+
+def main():
+    apscheduler.add_job(
+        login,
+        "cron",
+        hour=8,
+        minute=0,
+        args=(
+            os.getenv("ptt_username"),
+            os.getenv("ptt_password"),
+            os.getenv("tg_chat_id"),
+        ),
+    )
+
+    apscheduler.start()
+
+
+if __name__ == "__main__":
+    main()
