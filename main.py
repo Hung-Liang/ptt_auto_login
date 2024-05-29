@@ -86,8 +86,8 @@ def main():
     scheduler.add_job(
         login,
         trigger="cron",
-        hour=10,
-        minute=30,
+        hour=11,
+        minute=00,
         args=[
             os.environ.get("ptt_username"),
             os.environ.get("ptt_password"),
