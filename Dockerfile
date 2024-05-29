@@ -8,4 +8,4 @@ COPY .env ptt_auto_login/.env
 RUN cd ptt_auto_login && pip install -r requirements.txt
 
 WORKDIR /ptt_auto_login
-CMD ["python", "main.py"]
+CMD ["python3", "main.py"]
