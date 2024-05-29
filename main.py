@@ -75,11 +75,18 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
         return
     else:
         username = ptt.get_user(ptt_username)
-        response_message = (
-            f"PTT {ptt_username} Login Success\nLogin Count:"
-            f" {username.get('login_count')}"
-        )
-        ptt.logout()
+        login_count = username.get('login_count')
+
+        log("[ptt]", f"Login User: {username}")
+
+        response_message = f"""
+        <b>PTT Daily Login</b>
+
+        --------------------------------
+        <b>Login User:</b> {username}
+        <b>Login Count:</b> {login_count}
+        <b>Login Date:</b> {datetime.now().strftime('%Y-%m-%d')}
+        """
 
         send_message(chat_id, response_message)
 
@@ -90,8 +97,8 @@ def main():
     scheduler.add_job(
         login,
         trigger="cron",
-        hour=11,
-        minute=30,
+        hour=8,
+        minute=00,
         args=[
             os.environ.get("ptt_username"),
             os.environ.get("ptt_password"),
