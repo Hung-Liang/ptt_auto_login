@@ -7,4 +7,4 @@ COPY .env ptt_auto_login/.env
 
 RUN cd ptt_auto_login && pip install -r requirements.txt
 
-CMD ["python", "ptt_auto_login/main.py"]
+CMD ["cd", "ptt_auto_login", "&&", "python", "main.py"]
