@@ -55,11 +55,6 @@ def send_message(cid, message):
         f'send message: {res.status_code} {res.text}',
     )
 
-    if res.status_code == 200:
-        return True
-    else:
-        return False
-
 
 def login(ptt_username: str, ptt_password: str, chat_id: str):
 
@@ -67,6 +62,7 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
 
     try:
         ptt.login(ptt_username, ptt_password, kick_other_session=True)
+        log("[ptt]", f"Login Success: {ptt_username}")
     except Exception as e:
         log("[ptt]", str(e))
         send_message(
@@ -89,14 +85,14 @@ def main():
 
     scheduler.add_job(
         login,
-        "cron",
-        hour=8,
-        minute=0,
-        args=(
-            os.getenv("ptt_username"),
-            os.getenv("ptt_password"),
-            os.getenv("tg_chat_id"),
-        ),
+        trigger="cron",
+        hour=10,
+        minute=30,
+        args=[
+            os.environ.get("ptt_username"),
+            os.environ.get("ptt_password"),
+            os.environ.get("chat_id"),
+        ],
     )
 
     scheduler.start()
