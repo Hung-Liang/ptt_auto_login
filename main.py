@@ -2,9 +2,12 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-from apscheduler.schedulers.blocking import BlockingScheduler
 import requests
+from apscheduler.schedulers.blocking import BlockingScheduler
+from dotenv import load_dotenv
 from PyPtt import PTT
+
+load_dotenv()
 
 
 def log(*messages, console: bool = False):
@@ -59,6 +62,7 @@ def send_message(cid, message):
 def login(ptt_username: str, ptt_password: str, chat_id: str):
 
     ptt = PTT.API(log_level=PTT.log.INFO)
+    log(ptt_username, ptt_password, chat_id)
 
     try:
         ptt.login(ptt_username, ptt_password, kick_other_session=True)
@@ -87,11 +91,11 @@ def main():
         login,
         trigger="cron",
         hour=11,
-        minute=00,
+        minute=30,
         args=[
             os.environ.get("ptt_username"),
             os.environ.get("ptt_password"),
-            os.environ.get("chat_id"),
+            os.environ.get("tg_chat_id"),
         ],
     )
 
