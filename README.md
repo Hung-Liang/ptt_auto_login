@@ -20,3 +20,7 @@
 
 - 請在專案的根目錄下執行上面的指令。
 - 這個程式會在每天的早上八點自動執行，並且登入PTT。
+
+## Support me
+
+<a href="https://www.buymeacoffee.com/hungliang" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
