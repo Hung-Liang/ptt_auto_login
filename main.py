@@ -89,6 +89,10 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
         <b>Login Date:</b> {datetime.now().strftime('%Y-%m-%d')}
         """
 
+        response_message = "\n".join(
+            [line.strip() for line in response_message.split('\n')]
+        )
+
         send_message(chat_id, response_message)
 
 
