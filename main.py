@@ -74,8 +74,9 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
         )
         return
     else:
-        username = ptt.get_user(ptt_username)
-        login_count = username.get('login_count')
+        user = ptt.get_user(ptt_username)
+        username = user.get('ptt_id')
+        login_count = user.get('login_count')
 
         log("[ptt]", f"Login User: {username}")
 
@@ -97,7 +98,7 @@ def main():
     scheduler.add_job(
         login,
         trigger="cron",
-        hour=8,
+        hour=9,
         minute=00,
         args=[
             os.environ.get("ptt_username"),
