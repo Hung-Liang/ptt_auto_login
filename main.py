@@ -94,6 +94,7 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
         )
 
         send_message(chat_id, response_message)
+        ptt.logout()
 
 
 def main():
