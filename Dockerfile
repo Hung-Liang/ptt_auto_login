@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster
+FROM python:3.8-slim-bullseye
 
 RUN apt-get update && apt-get install -y git
 RUN git clone https://github.com/Hung-Liang/ptt_auto_login
