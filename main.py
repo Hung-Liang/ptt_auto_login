@@ -74,8 +74,9 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
         )
         return
     else:
-        username = ptt.get_user(ptt_username)
-        login_count = username.get('login_count')
+        user = ptt.get_user(ptt_username)
+        username = user.get('ptt_id')
+        login_count = user.get('login_count')
 
         log("[ptt]", f"Login User: {username}")
 
@@ -88,7 +89,12 @@ def login(ptt_username: str, ptt_password: str, chat_id: str):
         <b>Login Date:</b> {datetime.now().strftime('%Y-%m-%d')}
         """
 
+        response_message = "\n".join(
+            [line.strip() for line in response_message.split('\n')]
+        )
+
         send_message(chat_id, response_message)
+        ptt.logout()
 
 
 def main():
