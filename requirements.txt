@@ -1,5 +1,5 @@
 APScheduler>=3.6.3
-PyPtt
+PyPtt==2.3.14
 requests>=2.27.1
 python_dotenv>=0.19.2
 websockets>=13.0
