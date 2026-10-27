@@ -62,7 +62,6 @@ def send_message(cid, message):
 def login(ptt_username: str, ptt_password: str, chat_id: str):
 
     ptt = PTT.API(log_level=PTT.log.INFO)
-    log(ptt_username, ptt_password, chat_id)
 
     try:
         ptt.login(ptt_username, ptt_password, kick_other_session=True)
