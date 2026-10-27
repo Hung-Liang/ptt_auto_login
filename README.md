@@ -11,17 +11,15 @@
 - 然後將.env.example檔案複製一份，並且命名為.env。
 - 你需要在.env檔案中填入你的PTT帳號和密碼。還有telegram的bot token和chat id。
 - 這個程式是使用docker來執行的，所以你需要先安裝docker。
-- 你可以使用下面的指令來建立docker image，並且執行docker container。
+- 在專案的根目錄下執行下面的指令（或直接執行 `./start.sh`）即可啟動。
 
 ```bash
-    docker build -t ptt_auto_login .
-    docker run --restart always --env-file .env --name ptt_auto_login -d ptt_auto_login
+    docker compose up -d --build
 ```
 
-- 請在專案的根目錄下執行上面的指令。
-- image 會使用本機的程式碼建立，更新程式碼後需要重新 build。
-- .env 不會被打包進 image，而是在執行時以 `--env-file` 傳入，修改 .env 後需要重新建立 container 才會生效。
-- .env 的值請不要加引號，`--env-file` 不會去除引號。
+- image 會使用本機的程式碼建立，更新程式碼或 .env 後再執行一次上面的指令即可，只有變動的部分會重新 build，container 也只有在需要時才會重建。
+- .env 不會被打包進 image，而是在執行時以 `env_file` 傳入。
+- log 會寫到專案根目錄的 `log/` 資料夾，重建 container 也不會遺失。
 - 這個程式會在每天的早上八點自動執行，並且登入PTT。
 
 ## Support me

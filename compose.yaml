@@ -1,0 +1,9 @@
+services:
+  ptt_auto_login:
+    build: .
+    image: ptt_auto_login
+    container_name: ptt_auto_login
+    restart: always
+    env_file: .env
+    volumes:
+      - ./log:/ptt_auto_login/log
