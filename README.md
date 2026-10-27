@@ -15,12 +15,13 @@
 
 ```bash
     docker build -t ptt_auto_login .
-    docker run --restart always -v "$(pwd)/.env:/ptt_auto_login/.env:ro" --name ptt_auto_login -d ptt_auto_login
+    docker run --restart always --env-file .env --name ptt_auto_login -d ptt_auto_login
 ```
 
 - 請在專案的根目錄下執行上面的指令。
 - image 會使用本機的程式碼建立，更新程式碼後需要重新 build。
-- .env 不會被打包進 image，而是在執行時掛載進 container，修改 .env 後重新啟動 container 即可生效。
+- .env 不會被打包進 image，而是在執行時以 `--env-file` 傳入，修改 .env 後需要重新建立 container 才會生效。
+- .env 的值請不要加引號，`--env-file` 不會去除引號。
 - 這個程式會在每天的早上八點自動執行，並且登入PTT。
 
 ## Support me
