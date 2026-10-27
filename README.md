@@ -14,11 +14,13 @@
 - 你可以使用下面的指令來建立docker image，並且執行docker container。
 
 ```bash
-    docker build --no-cache -t ptt_auto_login .
-    docker run --restart always --name ptt_auto_login -d ptt_auto_login
+    docker build -t ptt_auto_login .
+    docker run --restart always -v "$(pwd)/.env:/ptt_auto_login/.env:ro" --name ptt_auto_login -d ptt_auto_login
 ```
 
 - 請在專案的根目錄下執行上面的指令。
+- image 會使用本機的程式碼建立，更新程式碼後需要重新 build。
+- .env 不會被打包進 image，而是在執行時掛載進 container，修改 .env 後重新啟動 container 即可生效。
 - 這個程式會在每天的早上八點自動執行，並且登入PTT。
 
 ## Support me
