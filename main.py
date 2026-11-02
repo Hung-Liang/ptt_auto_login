@@ -102,9 +102,9 @@ def main():
     scheduler.add_job(
         login,
         trigger="cron",
-        hour=8,
         # Off the hour: the shared host is busy at 00:00 UTC (08:00 Taipei)
-        minute=7,
+        hour=4,
+        minute=20,
         # APScheduler's default 1s grace silently skipped every run on that host
         misfire_grace_time=3600,
         args=[
