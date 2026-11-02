@@ -5,5 +5,7 @@ services:
     container_name: ptt_auto_login
     restart: always
     env_file: .env
+    environment:
+      TZ: Asia/Taipei
     volumes:
       - ./log:/ptt_auto_login/log
